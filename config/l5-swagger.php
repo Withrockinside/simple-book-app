@@ -45,7 +45,6 @@ return [
                  */
                 'annotations' => [
                     base_path('app/OpenApi'), // Centralized place for documentation to avoid bloating the controller
-                    base_path('app/Http'),
                 ],
             ],
         ],
