@@ -1,0 +1,40 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: book-app-php
+    container_name: book-app-php
+    volumes:
+      - .:/var/www
+    networks:
+      - book-network
+
+  webserver:
+    image: nginx:alpine
+    container_name: book-app-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - book-network
+
+  db:
+    image: mysql:8.0
+    container_name: book-app-db
+    environment:
+      MYSQL_DATABASE: book_library
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - book-network
+
+networks:
+  book-network:
+    driver: bridge
+
+volumes:
+  dbdata:
